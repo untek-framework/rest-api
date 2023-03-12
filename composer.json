@@ -10,6 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
+    "untek-framework/http": "0.x-dev"
   },
   "autoload": {
     "psr-4": {
