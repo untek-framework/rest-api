@@ -9,7 +9,7 @@ $containerBuilder = new ContainerBuilder();
 $fileLocator = new FileLocator(__DIR__);
 $loader = new PhpFileLoader($containerBuilder, $fileLocator);
 
-$loader->load(__DIR__ . '/../../../../../../../vendor/untek-framework/http/src/Infrastructure/DependencyInjection/Symfony/services/routing.php');
+$loader->load(__DIR__ . '/../../../../../../vendor/untek-framework/http/src/Resources/config/services/routing.php');
 $loader->load(__DIR__ . '/services/rest-api.php');
 
 return $containerBuilder;

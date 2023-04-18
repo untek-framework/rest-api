@@ -14,7 +14,7 @@ class RestApiFrameworkBundle extends BaseBundle
 
     public function build(ContainerBuilder $containerBuilder)
     {
-        $this->importServices($containerBuilder, __DIR__ . '/DependencyInjection/Symfony/services/rest-api.php');
-        $this->importServices($containerBuilder, __DIR__ . '/../../../../../vendor/untek-framework/http/src/Infrastructure/DependencyInjection/Symfony/services/routing.php');
+        $this->importServices($containerBuilder, __DIR__ . '/../Resources/config/services/rest-api.php');
+        $this->importServices($containerBuilder, __DIR__ . '/../../../../../vendor/untek-framework/http/src/Resources/config/services/routing.php');
     }
 }
