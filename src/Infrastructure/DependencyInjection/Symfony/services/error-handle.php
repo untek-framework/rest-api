@@ -8,6 +8,8 @@ use Untek\Framework\RestApi\Presentation\Http\Symfony\Subscribers\RestApiHandleS
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+\Untek\Core\Code\Helpers\DeprecateHelper::hardThrow();
+
 return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
