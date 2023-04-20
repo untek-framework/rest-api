@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Untek\Core\Arr\Helpers\ArrayHelper;
 use Untek\Core\Collection\Interfaces\Enumerable;
 use Untek\Model\DataProvider\Libs\DataProvider;
-use Untek\Framework\Rpc\Domain\Entities\RpcResponseEntity;
+use Untek\Framework\Rpc\Domain\Model\RpcResponseEntity;
 
 class DefaultResponseSerializer implements ResponseSerializerInterface
 {
