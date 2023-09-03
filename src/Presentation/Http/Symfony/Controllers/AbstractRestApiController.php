@@ -48,6 +48,9 @@ abstract class AbstractRestApiController
 
     protected function serialize($data): JsonResponse
     {
+        if($data === null) {
+            return new JsonResponse(null, 204);
+        }
         /** @var JsonResponse $response */
         $response = $this->getResponseSerializer()->encode($data);
         return $response;
