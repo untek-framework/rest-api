@@ -51,7 +51,8 @@ class RestApiSerializer implements SerializerInterface, DecoderInterface, Denorm
         $normalizers = [
             new DateTimeNormalizer(),
             new ArrayDenormalizer(),
-            new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter()),
+            new ObjectNormalizer(),
+//            new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter()),
         ];
         return new Serializer($normalizers, $encoders);
     }
