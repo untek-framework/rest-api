@@ -2,6 +2,7 @@
 
 namespace Untek\Framework\RestApi\Presentation\Http\Symfony\Controllers;
 
+use Untek\Framework\RestApi\Presentation\Http\Symfony\Interfaces\RestApiSchemaInterface;
 use Untek\Framework\RestApi\Presentation\Http\Symfony\Helpers\RestApiHelper;
 use Untek\Framework\RestApi\Presentation\Http\Symfony\Libs\RestApiSerializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,6 +14,8 @@ use Untek\Framework\RestApi\Presentation\Http\Serializer\ResponseSerializerInter
 
 abstract class AbstractRestApiController
 {
+
+    protected RestApiSchemaInterface $schema;
 
     protected function extractData(Request $request): array
     {
