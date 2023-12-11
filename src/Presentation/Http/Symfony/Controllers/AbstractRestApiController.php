@@ -2,20 +2,46 @@
 
 namespace Untek\Framework\RestApi\Presentation\Http\Symfony\Controllers;
 
-use Untek\Framework\RestApi\Presentation\Http\Symfony\Interfaces\RestApiSchemaInterface;
-use Untek\Framework\RestApi\Presentation\Http\Symfony\Helpers\RestApiHelper;
-use Untek\Framework\RestApi\Presentation\Http\Symfony\Libs\RestApiSerializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Untek\Core\Instance\Helpers\MappingHelper;
+use Untek\Core\Instance\Helpers\PropertyHelper;
 use Untek\Framework\RestApi\Presentation\Http\Serializer\DefaultResponseSerializer;
 use Untek\Framework\RestApi\Presentation\Http\Serializer\ResponseSerializerInterface;
+use Untek\Framework\RestApi\Presentation\Http\Symfony\Helpers\RestApiHelper;
+use Untek\Framework\RestApi\Presentation\Http\Symfony\Interfaces\RestApiSchemaInterface;
+use Untek\Framework\RestApi\Presentation\Http\Symfony\Libs\RestApiSerializer;
 
 abstract class AbstractRestApiController
 {
 
     protected RestApiSchemaInterface $schema;
+
+    protected function checkSchema()
+    {
+        if (!isset($this->schema) && getenv('REST_API_SCHEMA_STRICT')) {
+            throw new \RuntimeException('REST API schema not defined.');
+        }
+    }
+
+    protected function encodeObject(object $data): array
+    {
+        $this->checkSchema();
+        if (!isset($this->schema)) {
+            return PropertyHelper::toArray($data);
+        }
+        return $this->schema->encode($data);
+    }
+
+    protected function encodeList(array $data): array
+    {
+        $list = [];
+        foreach ($data as $entity) {
+            $list[] = $this->encodeObject($entity);
+        }
+        return $list;
+    }
 
     protected function extractData(Request $request): array
     {
@@ -25,7 +51,7 @@ abstract class AbstractRestApiController
         } else {
             $data = $request->request->all();
         }
-        if(empty($data)) {
+        if (empty($data)) {
             $data = $request->query->all();
         }
         if (is_string($data) && $format) {
@@ -49,10 +75,15 @@ abstract class AbstractRestApiController
         return new JsonResponse($data, $statusCode);
     }
 
+    protected function emptyResponse(): JsonResponse
+    {
+        return new JsonResponse(null, 204);
+    }
+
     protected function serialize($data): JsonResponse
     {
-        if($data === null) {
-            return new JsonResponse(null, 204);
+        if ($data === null) {
+            return $this->emptyResponse();
         }
         /** @var JsonResponse $response */
         $response = $this->getResponseSerializer()->encode($data);
