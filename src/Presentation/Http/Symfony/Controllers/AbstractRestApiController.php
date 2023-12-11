@@ -86,6 +86,7 @@ abstract class AbstractRestApiController
             return $this->emptyResponse();
         }
         /** @var JsonResponse $response */
+        $this->checkSchema();
         $response = $this->getResponseSerializer()->encode($data);
         return $response;
     }
