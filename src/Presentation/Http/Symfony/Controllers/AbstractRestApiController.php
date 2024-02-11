@@ -25,7 +25,7 @@ abstract class AbstractRestApiController
         }
     }
 
-    protected function encodeObject(object $data): array
+    protected function encodeObject(mixed $data): array
     {
         $this->checkSchema();
         if (!isset($this->schema)) {
