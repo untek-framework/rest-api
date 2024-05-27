@@ -97,7 +97,7 @@ abstract class AbstractRestApiController
         return new DefaultResponseSerializer($serializer);
     }
 
-    private function getSerializer(): SerializerInterface
+    protected function getSerializer(): SerializerInterface
     {
         return new RestApiSerializer();
     }
