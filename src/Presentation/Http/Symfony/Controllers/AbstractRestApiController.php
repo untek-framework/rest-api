@@ -46,16 +46,16 @@ abstract class AbstractRestApiController
     protected function extractData(Request $request): array
     {
         $format = RestApiHelper::getFormat($request);
-        if ($request->getContent()) {
-            $data = $request->getContent();
+        if ($request->getContent() && $format !== RestApiHelper::FORM_URLENCODED) {
+            $content = $request->getContent();
+            if (is_string($content) && $format) {
+                $data = $this->getSerializer()->decode($content, $format);
+            }
         } else {
             $data = $request->request->all();
         }
         if (empty($data)) {
             $data = $request->query->all();
-        }
-        if (is_string($data) && $format) {
-            $data = $this->getSerializer()->decode($data, $format);
         }
         return $data;
     }

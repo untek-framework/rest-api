@@ -9,6 +9,8 @@ use Untek\Core\Arr\Helpers\ArrayHelper;
 class RestApiHelper
 {
 
+    const FORM_URLENCODED = 'form-urlencoded';
+
     public static function getFormat(Request $request): ?string
     {
         $format = null;
@@ -16,6 +18,9 @@ class RestApiHelper
         if ($mimeType) {
             $extensions = (new MimeTypes)->getExtensions($mimeType);
             $format = ArrayHelper::first($extensions);
+        }
+        if($format == null) {
+            $format = self::FORM_URLENCODED;
         }
         return $format;
     }
