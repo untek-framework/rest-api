@@ -13,5 +13,3 @@ $loader = new PhpFileLoader($containerBuilder, $fileLocator);
 
 $loader->load(__DIR__ . '/../../../../../../vendor/untek-framework/http/src/Resources/config/services/routing.php');
 $loader->load(__DIR__ . '/services/rest-api.php');
-
-//return $containerBuilder;
