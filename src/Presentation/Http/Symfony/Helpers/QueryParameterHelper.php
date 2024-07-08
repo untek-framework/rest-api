@@ -10,6 +10,7 @@ use Untek\Model\DataProvider\Interfaces\ExpandQueryInterface;
 use Untek\Model\DataProvider\Interfaces\FilterQueryInterface;
 use Untek\Model\DataProvider\Interfaces\PageQueryInterface;
 use Untek\Model\DataProvider\Interfaces\SortQueryInterface;
+use Untek\Model\DataProvider\Interfaces\FilterLanguageInterface;
 
 class QueryParameterHelper
 {
