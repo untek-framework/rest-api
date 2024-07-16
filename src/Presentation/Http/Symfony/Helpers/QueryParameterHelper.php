@@ -15,6 +15,19 @@ use Untek\Model\DataProvider\Interfaces\FilterLanguageInterface;
 class QueryParameterHelper
 {
 
+    public static function removeEmptyFilters(object $query): void
+    {
+        $filter = $query->getFilter();
+        if($filter) {
+            foreach ($filter as $name => $value) {
+                if(empty($value)) {
+                    unset($filter[$name]);
+                }
+            }
+        }
+        $query->setFilter($filter);
+    }
+
     public static function fillQueryFromRequest(Request $request, object $query, int $defaultPageSize = 10): void
     {
         $queryParams = $request->query->all();
