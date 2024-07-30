@@ -15,12 +15,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Untek\Core\Contract\Common\Exceptions\NotImplementedMethodException;
 use Untek\Framework\RestApi\Presentation\Http\Serializer\DefaultResponseSerializer;
 use Untek\Framework\RestApi\Presentation\Http\Serializer\ResponseSerializerInterface;
 
-/**
- * @method  getSupportedTypes(?string $format)
- */
 class RestApiSerializer implements SerializerInterface, DecoderInterface, DenormalizerInterface, NormalizerInterface
 {
 
@@ -29,6 +27,11 @@ class RestApiSerializer implements SerializerInterface, DecoderInterface, Denorm
     public function __construct()
     {
         $this->serializer = $this->getResponseSerializer();
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        throw new NotImplementedMethodException();
     }
 
     public function encode($data): Response
@@ -69,7 +72,7 @@ class RestApiSerializer implements SerializerInterface, DecoderInterface, Denorm
         return $serializer->deserialize($data, $type, $format, $context);
     }
 
-    public function decode(string $data, string $format, array $context = [])
+    public function decode(string $data, string $format, array $context = []): mixed
     {
         $serializer = $this->getSerializer();
         return $serializer->decode($data, $format, $context);
@@ -81,13 +84,13 @@ class RestApiSerializer implements SerializerInterface, DecoderInterface, Denorm
         return $serializer->supportsDecoding($format);
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         $serializer = $this->getSerializer();
         return $serializer->denormalize($data, $type, $format, $context);
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = [] ): bool
     {
         $serializer = $this->getSerializer();
         return $serializer->supportsDenormalization($data, $type, $format);
@@ -99,7 +102,7 @@ class RestApiSerializer implements SerializerInterface, DecoderInterface, Denorm
         return $serializer->normalize($object, $format, $context);
     }
 
-    public function supportsNormalization(mixed $data, string $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = [] ): bool
     {
         $serializer = $this->getSerializer();
         return $serializer->supportsNormalization($data, $format);
