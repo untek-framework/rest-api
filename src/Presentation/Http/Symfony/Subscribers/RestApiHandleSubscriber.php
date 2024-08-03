@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Throwable;
+use function Symfony\Component\String\u;
 
 class RestApiHandleSubscriber implements EventSubscriberInterface
 {
@@ -34,6 +35,10 @@ class RestApiHandleSubscriber implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event)
     {
         $request = $event->getRequest()->duplicate();
+        $isRestApi = u($request->getRequestUri())->startsWith('/rest-api/');
+        if(!$isRestApi) {
+            return;
+        }
         $response = $this->forgeResponse($request, $event->getThrowable());
         $event->setResponse($response);
         $event->stopPropagation();
