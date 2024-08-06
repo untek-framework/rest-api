@@ -3,6 +3,7 @@
 namespace Untek\Framework\RestApi\Presentation\Http\Symfony\Subscribers;
 
 use Psr\Container\ContainerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
