@@ -12,7 +12,7 @@
   "minimum-stability": "dev",
   "require": {
     "symfony/serializer": "^4.4|^5.4|^6.0",
-    "untek-framework/http": "0.1.x-dev"
+    "untek-framework/http": "0.2.x-dev"
   },
   "autoload": {
     "psr-4": {
