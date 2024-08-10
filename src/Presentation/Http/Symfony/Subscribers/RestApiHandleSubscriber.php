@@ -2,16 +2,17 @@
 
 namespace Untek\Framework\RestApi\Presentation\Http\Symfony\Subscribers;
 
-use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Untek\FrameworkPlugin\RestApiErrorHandle\Presentation\Http\Symfony\Interfaces\RestApiErrorControllerInterface;
 use Throwable;
+use Untek\Core\Code\Helpers\DeprecateHelper;
+use Untek\FrameworkPlugin\RestApiErrorHandle\Presentation\Http\Symfony\Interfaces\RestApiErrorControllerInterface;
 use function Symfony\Component\String\u;
+
+DeprecateHelper::hardThrow();
 
 class RestApiHandleSubscriber implements EventSubscriberInterface
 {
@@ -33,7 +34,7 @@ class RestApiHandleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest()->duplicate();
         $isRestApi = u($request->getRequestUri())->startsWith('/rest-api/');
-        if(!$isRestApi) {
+        if (!$isRestApi) {
             return;
         }
         $response = $this->forgeResponse($request, $event->getThrowable());
@@ -49,7 +50,6 @@ class RestApiHandleSubscriber implements EventSubscriberInterface
             $request,
             $e,
         ];
-//        $controller = $this->container->get($this->restApiErrorController);
         $response = call_user_func_array([$this->restApiErrorController, 'handleError'], $arguments);
         return $response;
     }
