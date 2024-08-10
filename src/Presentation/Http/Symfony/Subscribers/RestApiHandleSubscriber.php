@@ -9,21 +9,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Untek\FrameworkPlugin\RestApiErrorHandle\Presentation\Http\Symfony\Interfaces\RestApiErrorControllerInterface;
 use Throwable;
 use function Symfony\Component\String\u;
 
 class RestApiHandleSubscriber implements EventSubscriberInterface
 {
 
-    private string $restApiErrorControllerClass;
-
-    public function __construct(private ContainerInterface $container)
+    public function __construct(
+        private RestApiErrorControllerInterface $restApiErrorController,
+    )
     {
-    }
-
-    public function setRestApiErrorControllerClass(string $restApiErrorControllerClass): void
-    {
-        $this->restApiErrorControllerClass = $restApiErrorControllerClass;
     }
 
     public static function getSubscribedEvents(): array
@@ -47,14 +43,14 @@ class RestApiHandleSubscriber implements EventSubscriberInterface
 
     protected function forgeResponse(Request $request, Throwable $e): Response
     {
-        $request->attributes->set('_controller', $this->restApiErrorControllerClass);
+        $request->attributes->set('_controller', $this->restApiErrorController);
         $request->attributes->set('_action', 'handleError');
         $arguments = [
             $request,
             $e,
         ];
-        $controller = $this->container->get($this->restApiErrorControllerClass);
-        $response = call_user_func_array([$controller, 'handleError'], $arguments);
+//        $controller = $this->container->get($this->restApiErrorController);
+        $response = call_user_func_array([$this->restApiErrorController, 'handleError'], $arguments);
         return $response;
     }
 }
